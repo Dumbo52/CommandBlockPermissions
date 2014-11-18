@@ -1,0 +1,3 @@
+command-block-enable: true
+log-output: false
+command-block-group: commandblock
