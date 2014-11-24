@@ -5,9 +5,14 @@ author: Dumbo52
 website: ${project.url}
 main: com.michaelelin.CommandBlockPermissions.CommandBlockPermissionsPlugin
 depend: [ProtocolLib, bPermissions]
+commands:
+  cbp:
+    description: CommandBlockPermissions commands.
+    usage: /cbp
 permissions:
+  cbp.reload:
+    description: Allows you to reload the plugin.
   cbp.edit:
     description: Allows you to edit existing command blocks.
   cbp.place:
     description: Allows you to place command blocks.
-        

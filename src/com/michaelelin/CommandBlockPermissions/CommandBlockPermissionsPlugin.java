@@ -15,6 +15,8 @@ import org.bukkit.Material;
 import org.bukkit.block.Block;
 import org.bukkit.block.BlockState;
 import org.bukkit.block.CommandBlock;
+import org.bukkit.command.Command;
+import org.bukkit.command.CommandSender;
 import org.bukkit.craftbukkit.v1_7_R4.CraftServer;
 import org.bukkit.craftbukkit.v1_7_R4.CraftWorld;
 import org.bukkit.craftbukkit.v1_7_R4.command.ServerCommandSender;
@@ -44,9 +46,7 @@ public class CommandBlockPermissionsPlugin extends JavaPlugin implements Listene
         getServer().getPluginManager().registerEvents(this, this);
         
         saveDefaultConfig();
-        COMMAND_BLOCK_ENABLE = getConfig().getBoolean("command-block-enable", true);
-        LOG_OUTPUT = getConfig().getBoolean("log-output", false);
-        COMMAND_BLOCK_GROUP = getConfig().getString("command-block-group", "commandblock");
+        loadConfiguration();
         
         ((CraftServer) getServer()).getHandle().getServer().propertyManager.setProperty("enable-command-block", COMMAND_BLOCK_ENABLE);
         
@@ -88,6 +88,27 @@ public class CommandBlockPermissionsPlugin extends JavaPlugin implements Listene
         ((CraftServer) getServer()).getHandle().getServer().propertyManager.setProperty("enable-command-block", false);
     }
     
+    @Override
+    public boolean onCommand(CommandSender sender, Command command, String label, String[] args) {
+        if (command.getName().equalsIgnoreCase("cbp")) {
+            if (args.length == 1) {
+                if (args[0].equalsIgnoreCase("reload")) {
+                    if (sender.hasPermission("cbp.reload")) {
+                        loadConfiguration();
+                        sender.sendMessage(ChatColor.GREEN + "Configuration reloaded.");
+                    } else {
+                        sender.sendMessage(ChatColor.RED + "You don't have permission for that command.");
+                    }
+                    return true;
+                }
+            }
+            sender.sendMessage(ChatColor.GREEN + "CommandBlockPermissions Commands:");
+            sender.sendMessage(ChatColor.AQUA + "/cbp reload" + ChatColor.WHITE + " - Reloads the plugin.");
+            return true;
+        }
+        return false;
+    }
+    
     @EventHandler(ignoreCancelled = true)
     public void onBlockPlace(BlockPlaceEvent event) {
         if (event.getBlock().getType() == Material.COMMAND && !event.getPlayer().hasPermission("cbp.place")) {
@@ -124,6 +145,14 @@ public class CommandBlockPermissionsPlugin extends JavaPlugin implements Listene
                 event.setCancelled(true);
             }
         }
+    }
+    
+    public void loadConfiguration() {
+        reloadConfig();
+        COMMAND_BLOCK_ENABLE = getConfig().getBoolean("command-block-enable", true);
+        ((CraftServer) getServer()).getHandle().getServer().propertyManager.setProperty("enable-command-block", COMMAND_BLOCK_ENABLE);
+        LOG_OUTPUT = getConfig().getBoolean("log-output", false);
+        COMMAND_BLOCK_GROUP = getConfig().getString("command-block-group", "commandblock");
     }
 
 }
