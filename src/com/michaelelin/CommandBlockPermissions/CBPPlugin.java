@@ -34,7 +34,7 @@ import com.comphenix.protocol.events.ListenerPriority;
 import com.comphenix.protocol.events.PacketAdapter;
 import com.comphenix.protocol.events.PacketEvent;
 
-public class CommandBlockPermissionsPlugin extends JavaPlugin implements Listener {
+public class CBPPlugin extends JavaPlugin implements Listener {
     
     public boolean COMMAND_BLOCK_ENABLE;
     public boolean LOG_OUTPUT;
@@ -125,8 +125,8 @@ public class CommandBlockPermissionsPlugin extends JavaPlugin implements Listene
                 TileEntityCommandListener listener = (TileEntityCommandListener) ((TileEntityCommand) ((CraftWorld) block.getWorld()).getTileEntityAt(block.getX(), block.getY(), block.getZ())).getCommandBlock();
                 Field sender = CommandBlockListenerAbstract.class.getDeclaredField("sender");
                 sender.setAccessible(true);
-                if (!(sender.get(listener) instanceof CommandBlockPermissionsSender)) {
-                    CommandBlockPermissionsSender cbp = new CommandBlockPermissionsSender(this, listener);
+                if (!(sender.get(listener) instanceof CBPSender)) {
+                    CBPSender cbp = new CBPSender(this, listener);
                     sender.set(listener, cbp);
                     try { // *Very* dirty way of checking if more work needs to be done (if we're running Spigot)
                         ServerCommandSender.class.getDeclaredField("blockPermInst");

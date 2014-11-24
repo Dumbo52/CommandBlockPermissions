@@ -11,11 +11,11 @@ import de.bananaco.bpermissions.api.CalculableType;
 // To be safe, this never actually has any permissions applied to it - it only references
 // the bPermissions API to determine permissions.
 
-public class CommandBlockPermissionsSender extends CraftBlockCommandSender {
+public class CBPSender extends CraftBlockCommandSender {
 
-    private CommandBlockPermissionsPlugin plugin;
+    private CBPPlugin plugin;
     
-    public CommandBlockPermissionsSender(CommandBlockPermissionsPlugin plugin, TileEntityCommandListener listener) {
+    public CBPSender(CBPPlugin plugin, TileEntityCommandListener listener) {
         super(listener);
         this.plugin = plugin;
     }
