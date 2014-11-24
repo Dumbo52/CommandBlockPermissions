@@ -16,3 +16,5 @@ permissions:
     description: Allows you to edit existing command blocks.
   cbp.place:
     description: Allows you to place command blocks.
+  cbp.read:
+    description: Allows you to view the contents of command blocks.
