@@ -35,6 +35,7 @@ public class CBPListener extends PacketAdapter implements Listener {
     
     public CBPListener(CBPPlugin plugin) {
         super(plugin, ListenerPriority.NORMAL, PacketType.Play.Server.TILE_ENTITY_DATA, PacketType.Play.Client.CUSTOM_PAYLOAD);
+        this.plugin = plugin;
     }
     
     @EventHandler(ignoreCancelled = true)
